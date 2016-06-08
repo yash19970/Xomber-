@@ -1,0 +1,13 @@
+consists of main function 
+uses pygame library
+1. create a class for creating tiles with attributes
+2. collision library, and images are moved, swapped and altered according to the situations. 
+3. give each tile a number and then accordingly st the invalid numbers which you don't eanna move and then create tiles
+ A*
+ 1. if the adjacent squares are walakable then move them to open lsit
+ 2. if they are done with calc, and are not walkable then move them to closed list.
+ 3. from the open list, take the square with least F= G+H value,
+ G: from starting square whether the square is to be reach is horizontal/vertical(10) and diagonal (14) units. 
+ H: from the node, count the number of horizontal and vertical blocks x 10 is the H value. 
+ sum up the both. 
+ 

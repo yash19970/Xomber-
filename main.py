@@ -1,39 +1,53 @@
-import pygame, sys
+import pygame, sys, functions
 from tileC import Tile
-import functions 
+from classes import *
+from interaction import interaction
+from A_Star import A_Star
+from time import sleep
+
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()
 
-invalids = (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
-			37,55,73,91,109,127,145,163,181,182,183,185,186,
-			187,188,189,190,191,192,193,194,195,196,197,198,
-			36,54,72,90,108,126,144,162,180,198)
+pygame.mixer.music.load('Audio/zombie_theme.ogg')
+pygame.mixer.music.play(-1) #-1 : iur music will replay again, never stops
 
-screen = pygame.display.set_mode((720, 440))
-for y in range(0,screen.get_height(), 40):
-	for x in range(0,screen.get_width(), 40):
-		
-		if Tile.totalTiles in invalids:
-			Tile(x, y, 'solid')
-		else:
-			Tile(x, y, 'empty')
 
+screen = pygame.display.set_mode((704, 448)) # 32, 32
+
+Tile.preInit(screen) #tiles are made using function.
 
 clock = pygame.time.Clock()
-FPS = 24 
-total_frames = 0
+FPS = 20
+totalFrames = 0
 
  
-while True:
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-    	    sys.exit()
+dungeon = pygame.image.load('images/dungeon.jpg')
+survivor = Survivor(32 * 2, 32 * 4)
 
-    Tile.draw_tiles(screen)
-    #screen.fill([0,0,0])
-    functions.text_(screen, 'funky', 250,300)
+
+while True:
+
+    screen.blit(dungeon, (0,0) )
+
+    Zombie.spawn(totalFrames, FPS)
+    Zombie.update(screen,survivor)
+
+    survivor.movement()
+    Bullet.superMassiveJumbleLoop(screen)
+    
+    A_Star(screen, survivor, totalFrames, FPS)
+    interaction(screen, survivor)   
+    survivor.draw(screen)
+    functions.text_to_screen(screen,'Health: {0}'.format(survivor.health),0,0)
+    functions.text_to_screen(screen,'Score: {0}'.format(Zombie.counter),0,20)
+
     pygame.display.flip()
     clock.tick(FPS)
-    total_frames += 1
+    totalFrames += 1   
+    if survivor.health <=0 :
+        sleep(2.5)
+        screen.blit(pygame.image.load('images/dead.jpg'), (0,0))
+        pygame.display.update() 
+        break
+

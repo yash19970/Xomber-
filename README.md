@@ -1,4 +1,4 @@
-![GitHub Classroom screenshot](https://github.com/yash19970/Edumojo/blob/master/images/dungeon.jpg)
+![GitHub Classroom screenshot](https://github.com/yash19970/Xomber-/blob/master/images/dungeon.jpg)
 #Xomber-
   1. Xomber is single player game built on python 2.x and pygame 1.9.1
   2. It uses A star search pathfinding algorithm for tracing the path of player.
